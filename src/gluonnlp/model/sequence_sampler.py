@@ -76,7 +76,7 @@ class BeamSearchScorer(HybridBlock):
         """
         return super(BeamSearchScorer, self).__call__(outputs, scores, step)
 
-    def hybrid_forward(self, F, outputs, scores, step): # pylint: disable=arguments-differ
+    def forward(self, F, outputs, scores, step): # pylint: disable=arguments-differ
         if not self._from_logits:
             outputs = outputs.log_softmax()
         prev_lp = (self._K + step - 1) ** self._alpha / (self._K + 1) ** self._alpha
@@ -273,7 +273,7 @@ class _BeamSearchStepUpdate(HybridBlock):
         self._single_step = single_step
         assert eos_id >= 0, 'eos_id cannot be negative! Received eos_id={}'.format(eos_id)
 
-    def hybrid_forward(self, F, samples, valid_length, outputs, scores, step, beam_alive_mask,   # pylint: disable=arguments-differ
+    def forward(self, F, samples, valid_length, outputs, scores, step, beam_alive_mask,   # pylint: disable=arguments-differ
                        states, vocab_size, batch_shift):
         """
 
@@ -380,7 +380,7 @@ class _SamplingStepUpdate(HybridBlock):
         assert eos_id >= 0, 'eos_id cannot be negative! Received eos_id={}'.format(eos_id)
 
     # pylint: disable=arguments-differ
-    def hybrid_forward(self, F, samples, valid_length, outputs, scores, beam_alive_mask, states):
+    def forward(self, F, samples, valid_length, outputs, scores, beam_alive_mask, states):
         """
         Parameters
         ----------
@@ -611,7 +611,7 @@ class HybridBeamSearchSampler(HybridBlock):
             'Provided vocab_size={} is not equal to decoder._vocab_size={}'\
             .format(self._vocab_size, decoder._vocab_size)
 
-    def hybrid_forward(self, F, inputs, states):   # pylint: disable=arguments-differ
+    def forward(self, F, inputs, states):   # pylint: disable=arguments-differ
         """Sample by beam search.
 
         Parameters

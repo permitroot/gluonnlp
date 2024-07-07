@@ -83,7 +83,7 @@ class MaskedSoftmaxCrossEntropyLoss(SoftmaxCELoss):
         super(MaskedSoftmaxCrossEntropyLoss, self).__init__(axis, sparse_label, from_logits,
                                                             weight, batch_axis, **kwargs)
 
-    def hybrid_forward(self, F, pred, label, valid_length): # pylint: disable=arguments-differ
+    def forward(self, F, pred, label, valid_length): # pylint: disable=arguments-differ
         if self._sparse_label:
             sample_weight = F.cast(F.expand_dims(F.ones_like(label), axis=-1), dtype=np.float32)
         else:
@@ -92,7 +92,7 @@ class MaskedSoftmaxCrossEntropyLoss(SoftmaxCELoss):
                                        sequence_length=valid_length,
                                        use_sequence_length=True,
                                        axis=1)
-        return super(MaskedSoftmaxCrossEntropyLoss, self).hybrid_forward(
+        return super(MaskedSoftmaxCrossEntropyLoss, self).forward(
             F, pred, label, sample_weight)
 
 MaskedSoftmaxCELoss = MaskedSoftmaxCrossEntropyLoss

@@ -64,7 +64,7 @@ class NMTModel(Block):
         Layer that projects the decoder outputs to the target vocabulary.
     prefix : str or None
         See document of `Block`.
-    params : ParameterDict or None
+    params : Parameter or None
         See document of `Block`.
     """
     def __init__(self, src_vocab, tgt_vocab, encoder, decoder, one_step_ahead_decoder,

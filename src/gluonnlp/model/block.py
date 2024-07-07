@@ -85,7 +85,7 @@ class L2Normalization(HybridBlock):
         self._axis = axis
         self._eps = eps
 
-    def hybrid_forward(self, F, x):  # pylint: disable=arguments-differ
+    def forward(self, F, x):  # pylint: disable=arguments-differ
         ret = F.broadcast_div(x, F.norm(x, axis=self._axis, keepdims=True) + self._eps)
         return ret
 
@@ -107,7 +107,7 @@ class GELU(HybridBlock):
         super().__init__(prefix=prefix, params=params)
         self._approximate = approximate
 
-    def hybrid_forward(self, F, x):  # pylint: disable=arguments-differ
+    def forward(self, F, x):  # pylint: disable=arguments-differ
         """
 
         Parameters

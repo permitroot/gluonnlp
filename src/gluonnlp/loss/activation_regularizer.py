@@ -61,7 +61,7 @@ class ActivationRegularizationLoss(Loss):
         s = 'ActivationRegularizationLoss (alpha={alpha})'
         return s.format(alpha=self._alpha)
 
-    def hybrid_forward(self, F, *states): # pylint: disable=arguments-differ
+    def forward(self, F, *states): # pylint: disable=arguments-differ
         """
         Parameters
         ----------
@@ -123,7 +123,7 @@ class TemporalActivationRegularizationLoss(Loss):
         s = 'TemporalActivationRegularizationLoss (beta={beta})'
         return s.format(beta=self._beta)
 
-    def hybrid_forward(self, F, *states): # pylint: disable=arguments-differ
+    def forward(self, F, *states): # pylint: disable=arguments-differ
         """
         Parameters
         ----------

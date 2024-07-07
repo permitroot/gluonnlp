@@ -69,7 +69,7 @@ class AWDRNN(train.AWDRNN):
                                      tie_weights, dropout, weight_drop,
                                      drop_h, drop_i, drop_e, **kwargs)
 
-    def hybrid_forward(self, F, inputs, begin_state=None):
+    def forward(self, F, inputs, begin_state=None):
         # pylint: disable=arguments-differ
         """Implement forward computation.
 
@@ -139,7 +139,7 @@ class StandardRNN(train.StandardRNN):
         super(StandardRNN, self).__init__(mode, vocab_size, embed_size, hidden_size,
                                           num_layers, dropout, tie_weights, **kwargs)
 
-    def hybrid_forward(self, F, inputs, begin_state=None): # pylint: disable=arguments-differ
+    def forward(self, F, inputs, begin_state=None): # pylint: disable=arguments-differ
         """Defines the forward computation. Arguments can be either
         :py:class:`NDArray` or :py:class:`Symbol`.
 

@@ -130,7 +130,7 @@ class BiLMEncoder(gluon.HybridBlock):
                [self.backward_layers[0][0].begin_state(func=func, **kwargs)
                 for _ in range(self._num_layers)]
 
-    def hybrid_forward(self, F, inputs, states=None, mask=None):
+    def forward(self, F, inputs, states=None, mask=None):
         # pylint: disable=arguments-differ
         # pylint: disable=unused-argument
         """Defines the forward computation for cache cell. Arguments can be either

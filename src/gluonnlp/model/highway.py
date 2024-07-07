@@ -95,7 +95,7 @@ class Highway(gluon.HybridBlock):
                                            flatten=False))
             self._activation = nn.Activation(activation)
 
-    def hybrid_forward(self, F, inputs, **kwargs): # pylint: disable=arguments-differ
+    def forward(self, F, inputs, **kwargs): # pylint: disable=arguments-differ
         r"""
         Forward computation for highway layer
 

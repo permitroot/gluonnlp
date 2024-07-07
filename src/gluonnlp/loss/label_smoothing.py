@@ -96,7 +96,7 @@ class LabelSmoothing(HybridBlock):
         self._sparse_label = sparse_label
         self._units = units
 
-    def hybrid_forward(self, F, inputs, units=None): # pylint: disable=arguments-differ
+    def forward(self, F, inputs, units=None): # pylint: disable=arguments-differ
         """
 
         Parameters

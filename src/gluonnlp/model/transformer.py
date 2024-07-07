@@ -120,7 +120,7 @@ class PositionwiseFFN(HybridBlock):
         assert isinstance(act, gluon.Block)
         return act
 
-    def hybrid_forward(self, F, inputs):  # pylint: disable=arguments-differ
+    def forward(self, F, inputs):  # pylint: disable=arguments-differ
         """Position-wise encoding of the inputs.
 
         Parameters
@@ -222,7 +222,7 @@ class TransformerEncoderCell(HybridBlock):
             self.layer_norm = nn.LayerNorm(in_channels=units, epsilon=layer_norm_eps)
 
 
-    def hybrid_forward(self, F, inputs, mask=None):  # pylint: disable=arguments-differ
+    def forward(self, F, inputs, mask=None):  # pylint: disable=arguments-differ
         """Transformer Encoder Attention Cell.
 
         Parameters
@@ -366,7 +366,7 @@ class TransformerEncoder(HybridBlock, Seq2SeqEncoder):
         """
         return super().__call__(inputs, states, valid_length)
 
-    def hybrid_forward(self, F, inputs, states=None, valid_length=None, position_weight=None):
+    def forward(self, F, inputs, states=None, valid_length=None, position_weight=None):
         # pylint: disable=arguments-differ
         """Encode the inputs given the states and valid sequence length.
 
@@ -532,7 +532,7 @@ class TransformerDecoderCell(HybridBlock):
             self.layer_norm_in = nn.LayerNorm()
             self.layer_norm_inter = nn.LayerNorm()
 
-    def hybrid_forward(self, F, inputs, mem_value, mask=None, mem_mask=None):  #pylint: disable=unused-argument
+    def forward(self, F, inputs, mem_value, mask=None, mem_mask=None):  #pylint: disable=unused-argument
         #  pylint: disable=arguments-differ
         """Transformer Decoder Attention Cell.
 
@@ -648,7 +648,7 @@ class _BaseTransformerDecoder(HybridBlock):
             decoder_states.append(None)
         return decoder_states
 
-    def hybrid_forward(self, F, inputs, states, valid_length=None, position_weight=None):
+    def forward(self, F, inputs, states, valid_length=None, position_weight=None):
         #pylint: disable=arguments-differ
         """Decode the decoder inputs. This function is only used for training.
 
@@ -831,7 +831,7 @@ class TransformerOneStepDecoder(_BaseTransformerDecoder, Seq2SeqOneStepDecoder):
             inputs = mx.nd.expand_dims(step_input, axis=1)
         return super().forward(inputs, states)
 
-    def hybrid_forward(self, F, inputs, states, position_weight):
+    def forward(self, F, inputs, states, position_weight):
         # pylint: disable=arguments-differ
         """One-step-ahead decoding of the Transformer decoder.
 
@@ -855,7 +855,7 @@ class TransformerOneStepDecoder(_BaseTransformerDecoder, Seq2SeqOneStepDecoder):
             The attention weights will have shape (batch_size, length, mem_length) or
             (batch_size, num_heads, length, mem_length)
         """
-        outputs, states, additional_outputs = super().hybrid_forward(
+        outputs, states, additional_outputs = super().forward(
             F, inputs, states, valid_length=None, position_weight=position_weight)
 
         # Append inputs to states: They are needed in the next one-step ahead decoding step

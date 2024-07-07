@@ -188,7 +188,7 @@ class CosineSimilarity(WordEmbeddingSimilarityFunction):
         super(CosineSimilarity, self).__init__(**kwargs)
         self.eps = eps
 
-    def hybrid_forward(self, F, x, y):  # pylint: disable=arguments-differ
+    def forward(self, F, x, y):  # pylint: disable=arguments-differ
         """Compute the cosine similarity between two batches of vectors.
 
         The cosine similarity is the dot product between the L2 normalized
@@ -258,7 +258,7 @@ class ThreeCosMul(WordEmbeddingAnalogyFunction):
         with self.name_scope():
             self.weight = self.params.get_constant('weight', idx_to_vec)
 
-    def hybrid_forward(self, F, words1, words2, words3, weight):  # pylint: disable=arguments-differ
+    def forward(self, F, words1, words2, words3, weight):  # pylint: disable=arguments-differ
         """Compute ThreeCosMul for given question words.
 
         Parameters
@@ -352,7 +352,7 @@ class ThreeCosAdd(WordEmbeddingAnalogyFunction):
         with self.name_scope():
             self.weight = self.params.get_constant('weight', idx_to_vec)
 
-    def hybrid_forward(self, F, words1, words2, words3, weight):  # pylint: disable=arguments-differ
+    def forward(self, F, words1, words2, words3, weight):  # pylint: disable=arguments-differ
         """Compute ThreeCosAdd for given question words.
 
         Parameters
@@ -431,7 +431,7 @@ class WordEmbeddingSimilarity(HybridBlock):
                 '{} is not a WordEmbeddingAnalogyFunction'.format(
                     self.similarity.__class__.__name__))
 
-    def hybrid_forward(self, F, words1, words2, weight):  # pylint: disable=arguments-differ
+    def forward(self, F, words1, words2, weight):  # pylint: disable=arguments-differ
         """Predict the similarity of words1 and words2.
 
         Parameters
@@ -493,7 +493,7 @@ class WordEmbeddingAnalogy(HybridBlock):
                 '{} is not a WordEmbeddingAnalogyFunction'.format(
                     self.analogy.__class__.__name__))
 
-    def hybrid_forward(self, F, words1, words2, words3):  # pylint: disable=arguments-differ, unused-argument
+    def forward(self, F, words1, words2, words3):  # pylint: disable=arguments-differ, unused-argument
         """Compute analogies for given question words.
 
         Parameters

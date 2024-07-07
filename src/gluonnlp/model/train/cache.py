@@ -130,7 +130,7 @@ class CacheCell(HybridBlock):
                                                cache_history, begin_state)
 
 
-    def hybrid_forward(self, F, inputs, target, next_word_history, cache_history, begin_state=None):
+    def forward(self, F, inputs, target, next_word_history, cache_history, begin_state=None):
         # pylint: disable=arguments-differ
         """Defines the forward computation for cache cell. Arguments can be either
         :py:class:`NDArray` or :py:class:`Symbol`.
@@ -161,7 +161,7 @@ class CacheCell(HybridBlock):
             (size is equal to the window size)
         """
         output, hidden, encoder_hs, _ = super(self.lm_model.__class__, self.lm_model).\
-                                        hybrid_forward(F, inputs, begin_state)
+                                        forward(F, inputs, begin_state)
         encoder_h = encoder_hs[-1].reshape(-3, -2)
         output = output.reshape(-1, self._vocab_size)
 

@@ -124,7 +124,7 @@ class DotProductSelfAttentionCell(HybridBlock):
         return ret
 
     # pylint: disable=arguments-differ
-    def hybrid_forward(self, F, qkv, valid_len, query_bias, key_bias, value_bias,
+    def forward(self, F, qkv, valid_len, query_bias, key_bias, value_bias,
                        query_weight, key_weight, value_weight):
         # interleaved_matmul_selfatt ops assume the projection is done with interleaving
         # weights for query/key/value. The concatenated weight should have shape
@@ -223,7 +223,7 @@ class BERTEncoderCell(HybridBlock):
             self.layer_norm = nn.LayerNorm(in_channels=units, epsilon=layer_norm_eps)
 
 
-    def hybrid_forward(self, F, inputs, valid_len=None):  # pylint: disable=arguments-differ
+    def forward(self, F, inputs, valid_len=None):  # pylint: disable=arguments-differ
         """Transformer Encoder Attention Cell.
 
         Parameters
@@ -363,7 +363,7 @@ class BERTEncoder(HybridBlock, Seq2SeqEncoder):
         """
         return super().__call__(inputs, states, valid_length)
 
-    def hybrid_forward(self, F, inputs, states=None, valid_length=None, position_weight=None):
+    def forward(self, F, inputs, states=None, valid_length=None, position_weight=None):
         # pylint: disable=arguments-differ
         """Encode the inputs given the states and valid sequence length.
 
@@ -483,7 +483,7 @@ class BERTModel(HybridBlock):
         Whether to include token type embedding (segment embedding).
     prefix : str or None
         See document of `mx.gluon.Block`.
-    params : ParameterDict or None
+    params : Parameter or None
         See document of `mx.gluon.Block`.
 
     Inputs:
@@ -594,7 +594,7 @@ class BERTModel(HybridBlock):
         """
         return super().__call__(inputs, token_types, valid_length, masked_positions)
 
-    def hybrid_forward(self, F, inputs, token_types, valid_length=None, masked_positions=None):
+    def forward(self, F, inputs, token_types, valid_length=None, masked_positions=None):
         # pylint: disable=arguments-differ
         """Generate the representation given the inputs.
 
@@ -711,7 +711,7 @@ class RoBERTaModel(BERTModel):
         Whether to include the decoder for masked language model prediction.
     prefix : str or None
         See document of `mx.gluon.Block`.
-    params : ParameterDict or None
+    params : Parameter or None
         See document of `mx.gluon.Block`.
 
     Inputs:
@@ -776,7 +776,7 @@ class DistilBERTModel(BERTModel):
         The word embedding. If set to None, word_embed will be constructed using embed_size.
     prefix : str or None
         See document of `mx.gluon.Block`.
-    params : ParameterDict or None
+    params : Parameter or None
         See document of `mx.gluon.Block`.
 
     Inputs:
@@ -830,7 +830,7 @@ class BERTClassifier(HybridBlock):
         Dropout probability for the bert output.
     prefix : str or None
         See document of `mx.gluon.Block`.
-    params : ParameterDict or None
+    params : Parameter or None
         See document of `mx.gluon.Block`.
     """
 
@@ -865,7 +865,7 @@ class BERTClassifier(HybridBlock):
         """
         return super(BERTClassifier, self).__call__(inputs, token_types, valid_length)
 
-    def hybrid_forward(self, F, inputs, token_types, valid_length=None):
+    def forward(self, F, inputs, token_types, valid_length=None):
         # pylint: disable=arguments-differ
         """Generate the unnormalized score for the given the input sequences.
 
@@ -905,7 +905,7 @@ class RoBERTaClassifier(HybridBlock):
         Dropout probability for the RoBERTa output.
     prefix : str or None
         See document of `mx.gluon.Block`.
-    params : ParameterDict or None
+    params : Parameter or None
         See document of `mx.gluon.Block`.
 
     Inputs:
@@ -949,7 +949,7 @@ class RoBERTaClassifier(HybridBlock):
         """
         return super(RoBERTaClassifier, self).__call__(inputs, valid_length)
 
-    def hybrid_forward(self, F, inputs, valid_length=None):
+    def forward(self, F, inputs, valid_length=None):
         # pylint: disable=arguments-differ
         """Generate the unnormalized score for the given the input sequences.
 

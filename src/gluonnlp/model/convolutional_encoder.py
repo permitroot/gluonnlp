@@ -128,7 +128,7 @@ class ConvolutionalEncoder(gluon.HybridBlock):
                 self._projection = None
                 self._output_size = maxpool_output_size
 
-    def hybrid_forward(self, F, inputs, mask=None): # pylint: disable=arguments-differ
+    def forward(self, F, inputs, mask=None): # pylint: disable=arguments-differ
         r"""
         Forward computation for char_encoder
 

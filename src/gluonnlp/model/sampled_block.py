@@ -48,7 +48,7 @@ class _SampledDenseHelper(HybridBlock):
         self._sparse_label = sparse_label
 
     # pylint: disable=arguments-differ
-    def hybrid_forward(self, F, x, sampled_values, label, w_all, b_all):
+    def forward(self, F, x, sampled_values, label, w_all, b_all):
         """Forward computation."""
         sampled_candidates, expected_count_sampled, expected_count_true = sampled_values
         # (num_sampled, in_unit)
@@ -166,7 +166,7 @@ class _SampledDense(HybridBlock):
         self._sparse_grad = sparse_grad
 
     # pylint: disable=arguments-differ
-    def hybrid_forward(self, F, x, sampled_values, label, weight, bias):
+    def forward(self, F, x, sampled_values, label, weight, bias):
         """Forward computation."""
         sampled_candidates, _, _ = sampled_values
         # (batch_size,)

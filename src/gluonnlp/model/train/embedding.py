@@ -114,7 +114,7 @@ class CSREmbeddingModel(EmbeddingModel, HybridBlock):
             init=weight_initializer, dtype=dtype,
             allow_deferred_init=True, grad_stype=grad_stype)  # yapf: disable
 
-    def hybrid_forward(self, F, words, weight):
+    def forward(self, F, words, weight):
         """Compute embedding of words in batch.
 
         Parameters
@@ -418,7 +418,7 @@ class FasttextEmbeddingModel(EmbeddingModel, HybridBlock):
         else:
             return emb
 
-    def hybrid_forward(self, F, words, weight):
+    def forward(self, F, words, weight):
         """Compute embedding of words in batch.
 
         Parameters

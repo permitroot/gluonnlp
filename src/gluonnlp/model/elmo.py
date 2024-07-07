@@ -98,7 +98,7 @@ class ELMoCharacterEncoder(gluon.HybridBlock):
                                                       output_size=self._output_size)
 
 
-    def hybrid_forward(self, F, inputs):
+    def forward(self, F, inputs):
         # pylint: disable=arguments-differ
         """
         Compute context insensitive token embeddings for ELMo representations.
@@ -238,7 +238,7 @@ class ELMoBiLM(gluon.HybridBlock):
     def begin_state(self, func, **kwargs):
         return self._elmo_lstm.begin_state(func, **kwargs)
 
-    def hybrid_forward(self, F, inputs, states=None, mask=None):
+    def forward(self, F, inputs, states=None, mask=None):
         # pylint: disable=arguments-differ
         """
         Parameters

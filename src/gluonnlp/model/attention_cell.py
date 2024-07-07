@@ -169,7 +169,7 @@ class AttentionCell(HybridBlock):
         """
         return super(AttentionCell, self).__call__(query, key, value, mask)
 
-    def hybrid_forward(self, F, query, key, value=None, mask=None):  # pylint: disable=arguments-differ
+    def forward(self, F, query, key, value=None, mask=None):  # pylint: disable=arguments-differ
         if value is None:
             value = key
         att_weights = self._compute_weight(F, query, key, mask)
@@ -321,7 +321,7 @@ class MLPAttentionCell(AttentionCell):
         Initializer of the bias.
     prefix : str or None, default None
         See document of `Block`.
-    params : ParameterDict or None, default None
+    params : Parameter or None, default None
         See document of `Block`.
     """
 
@@ -339,7 +339,7 @@ class MLPAttentionCell(AttentionCell):
                                          init=weight_initializer,
                                          allow_deferred_init=True)
 
-            def hybrid_forward(self, F, x, g, v):  # pylint: disable=arguments-differ
+            def forward(self, F, x, g, v):  # pylint: disable=arguments-differ
                 v = F.broadcast_div(v, F.sqrt(F.dot(v, v, transpose_b=True)))
                 weight = F.broadcast_mul(g, v)
                 out = F.FullyConnected(x, weight, None, no_bias=True, num_hidden=1,

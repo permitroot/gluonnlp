@@ -18,7 +18,7 @@
 __all__ = ['AWDRNN', 'StandardRNN', 'BigRNN']
 
 from mxnet import init, nd, autograd
-from mxnet.gluon import nn, Block, HybridBlock, contrib, rnn, ParameterDict
+from mxnet.gluon import nn, Block, HybridBlock, contrib, rnn, Parameter
 from mxnet import sym
 
 from ..utils import _get_rnn_layer, apply_weight_drop
@@ -110,10 +110,10 @@ class AWDRNN(HybridBlock):
                 if self._shared_params is not None:
                     # self.embedding[0].params do not contain the bias, it
                     # may leave the decoder bias uninitialized. We resolve this
-                    # issue by creating a new ParameterDict and stuffing
-                    # every shared params into the ParameterDict.
+                    # issue by creating a new Parameter and stuffing
+                    # every shared params into the Parameter.
                     shared_params = self.embedding[0].params
-                    shared_params = ParameterDict(shared_params.prefix)
+                    shared_params = Parameter(shared_params.prefix)
                     shared_params.update(self._shared_params)
                     output.add(nn.Dense(self._vocab_size, flatten=False,
                                         params=shared_params))
@@ -161,7 +161,7 @@ class AWDRNN(HybridBlock):
         """
         return super(AWDRNN, self).__call__(inputs, begin_state)
 
-    def hybrid_forward(self, F, inputs, begin_state=None): # pylint: disable=arguments-differ
+    def forward(self, F, inputs, begin_state=None): # pylint: disable=arguments-differ
         """Implement the forward computation that the awd language model and cache model use.
 
         Parameters
@@ -277,10 +277,10 @@ class StandardRNN(HybridBlock):
                 if self._shared_params is not None:
                     # self.embedding[0].params do not contain the bias, it
                     # may leave the decoder bias uninitialized. We resolve this
-                    # issue by creating a new ParameterDict and stuffing
-                    # every shared params into the ParameterDict.
+                    # issue by creating a new Parameter and stuffing
+                    # every shared params into the Parameter.
                     shared_params = self.embedding[0].params
-                    shared_params = ParameterDict(shared_params.prefix)
+                    shared_params = Parameter(shared_params.prefix)
                     shared_params.update(self._shared_params)
                     output.add(nn.Dense(self._vocab_size, flatten=False,
                                         params=shared_params))
@@ -327,7 +327,7 @@ class StandardRNN(HybridBlock):
         """
         return super(StandardRNN, self).__call__(inputs, begin_state)
 
-    def hybrid_forward(self, F, inputs, begin_state=None): # pylint: disable=arguments-differ
+    def forward(self, F, inputs, begin_state=None): # pylint: disable=arguments-differ
         """Defines the forward computation. Arguments can be either
         :py:class:`NDArray` or :py:class:`Symbol`.
 
